@@ -87,6 +87,14 @@
     </section>
   </main>
 
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "090e9cd6bca0458c8e04b4a96fcbd54b"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+  </script>
+
   <script>
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
@@ -102,6 +110,78 @@
 
     // Start your code here
     // You may move this JS to another file if you wish
+
+    class MyCustomError extends Error {
+      constructor(message) {
+        super(message)
+        this.name = "MyCustomError"
+      }
+    }
+
+    for (let btn of errorBtns) {
+      btn.addEventListener('click', _ => {
+        let val = btn.innerHTML
+        if (val === "Console Log")
+          console.log("console log demo")
+        else if (val === "Console Error")
+          console.error("console error demo")
+        else if (val === "Console Count")
+          console.count("count")
+        else if (val === "Console Warn")
+          console.warn("console warn demo")
+        else if (val === "Console Assert")
+          console.assert(1 > 2, {x: 1, y: 2, reason: "first is expected to be greater than second"})
+        else if (val === "Console Clear")
+          console.clear()
+        else if (val === "Console Dir")
+          console.dir(document.head)
+        else if (val === "Console dirxml")
+          console.dirxml(document)
+        else if (val === "Console Group Start")
+          console.group("My Group")
+        else if (val === "Console Group End")
+          console.groupEnd("My Group")
+        else if (val === "Start Timer")
+          console.time("My Timer")
+        else if (val === "End Timer")
+          console.timeEnd("My Timer")
+        else if (val === "Console Table")
+          console.table([
+            {
+              name: "entry 1",
+              value: 1
+            },
+            {
+              name:"entry 2",
+              value: 2
+            }
+          ])
+        else if (val === "Console Trace") {
+          const one = () => two();
+          const two = () => three();
+          const three = () => four();
+          const four = () => console.trace();
+          one();
+        }
+        else {
+          try {
+            console.log("Entered try clause")
+            let val = document.getElementById("DoesntExist")
+            val.innerHTML = "shouldn't be set"
+          } catch (e) {
+            console.log("There was an error :((")
+            throw new MyCustomError("Element was not found")
+            TrackJS.track('Testing TrackJS!');
+          } finally {
+            console.log("Entered finally clause")
+          }
+        }
+      })
+    }
+
+    window.addEventListener("error", (event) => {
+      console.error("windowOnerror event log:", event)
+    })
   </script>
 </body>
 

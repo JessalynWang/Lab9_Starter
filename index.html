@@ -171,7 +171,6 @@
           } catch (e) {
             console.log("There was an error :((")
             throw new MyCustomError("Element was not found")
-            TrackJS.track('Testing TrackJS!');
           } finally {
             console.log("Entered finally clause")
           }
@@ -180,7 +179,7 @@
     }
 
     window.addEventListener("error", (event) => {
-      console.error("windowOnerror event log:", event)
+      console.log("an error was detected by window onerror")
     })
   </script>
 </body>
